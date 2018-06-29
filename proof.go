@@ -13,9 +13,6 @@ var (
 	// ErrInvalidProof is returned by Verify when a proof cannot be validated.
 	ErrInvalidProof = fmt.Errorf("invalid proof")
 
-	// ErrInvalidInputs is returned when the inputs passed to the function are invalid.
-	ErrInvalidInputs = fmt.Errorf("invalid inputs")
-
 	// ErrInvalidRoot is returned when the root passed in does not match the proof's.
 	ErrInvalidRoot = fmt.Errorf("invalid root")
 
