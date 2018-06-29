@@ -9,6 +9,7 @@ import (
 	cmn "github.com/tendermint/tmlibs/common"
 )
 
+// RangeProof provides all functionality to prove existence and absence of key-value pairs in the tree.
 type RangeProof struct {
 	// You don't need the right path because
 	// it can be derived from what we have.
@@ -22,17 +23,17 @@ type RangeProof struct {
 
 // String returns a string representation of the proof.
 func (proof *RangeProof) String() string {
-	return proof.StringIndented("")
+	return proof.stringIndented("")
 }
 
-func (proof *RangeProof) StringIndented(indent string) string {
+func (proof *RangeProof) stringIndented(indent string) string {
 	istrs := make([]string, 0, len(proof.InnerNodes))
 	for _, ptl := range proof.InnerNodes {
 		istrs = append(istrs, ptl.StringIndented(indent+"    "))
 	}
 	lstrs := make([]string, 0, len(proof.Leaves))
 	for _, leaf := range proof.Leaves {
-		lstrs = append(lstrs, leaf.StringIndented(indent+"    "))
+		lstrs = append(lstrs, leaf.stringIndented(indent+"    "))
 	}
 	return fmt.Sprintf(`RangeProof{
 %s  RootHash: %X
