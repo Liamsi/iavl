@@ -8,6 +8,7 @@ import (
 	dbm "github.com/tendermint/tmlibs/db"
 )
 
+// ErrVersionDoesNotExist is returned when a requested version does not exist.
 var ErrVersionDoesNotExist = fmt.Errorf("version does not exist")
 
 // VersionedTree is a persistent tree which keeps track of versions.
