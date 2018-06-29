@@ -11,7 +11,7 @@ import (
 // pathWithLeaf is a path to a leaf node and the leaf node itself.
 type pathWithLeaf struct {
 	Path PathToLeaf    `json:"path"`
-	Leaf proofLeafNode `json:"leaf"`
+	Leaf ProofLeafNode `json:"leaf"`
 }
 
 func (pwl pathWithLeaf) String() string {
@@ -37,7 +37,7 @@ func (pwl pathWithLeaf) verify(root []byte) cmn.Error {
 // PathToLeaf represents an inner path to a leaf node.
 // Note that the nodes are ordered such that the last one is closest
 // to the root of the tree.
-type PathToLeaf []proofInnerNode
+type PathToLeaf []ProofInnerNode
 
 func (pl PathToLeaf) String() string {
 	return pl.StringIndented("")

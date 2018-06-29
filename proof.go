@@ -25,7 +25,7 @@ var (
 
 //----------------------------------------
 
-type proofInnerNode struct {
+type ProofInnerNode struct {
 	Height  int8   `json:"height"`
 	Size    int64  `json:"size"`
 	Version int64  `json:"version"`
@@ -33,12 +33,12 @@ type proofInnerNode struct {
 	Right   []byte `json:"right"`
 }
 
-func (pin proofInnerNode) String() string {
+func (pin ProofInnerNode) String() string {
 	return pin.StringIndented("")
 }
 
-func (pin proofInnerNode) StringIndented(indent string) string {
-	return fmt.Sprintf(`proofInnerNode{
+func (pin ProofInnerNode) StringIndented(indent string) string {
+	return fmt.Sprintf(`ProofInnerNode{
 %s  Height:  %v
 %s  Size:    %v
 %s  Version: %v
@@ -53,7 +53,7 @@ func (pin proofInnerNode) StringIndented(indent string) string {
 		indent)
 }
 
-func (pin proofInnerNode) Hash(childHash []byte) []byte {
+func (pin ProofInnerNode) Hash(childHash []byte) []byte {
 	hasher := sha256truncated.New()
 	buf := new(bytes.Buffer)
 
@@ -81,7 +81,7 @@ func (pin proofInnerNode) Hash(childHash []byte) []byte {
 		}
 	}
 	if err != nil {
-		panic(fmt.Sprintf("Failed to hash proofInnerNode: %v", err))
+		panic(fmt.Sprintf("Failed to hash ProofInnerNode: %v", err))
 	}
 
 	hasher.Write(buf.Bytes())
@@ -90,18 +90,18 @@ func (pin proofInnerNode) Hash(childHash []byte) []byte {
 
 //----------------------------------------
 
-type proofLeafNode struct {
+type ProofLeafNode struct {
 	Key       cmn.HexBytes `json:"key"`
 	ValueHash cmn.HexBytes `json:"value"`
 	Version   int64        `json:"version"`
 }
 
-func (pln proofLeafNode) String() string {
+func (pln ProofLeafNode) String() string {
 	return pln.StringIndented("")
 }
 
-func (pln proofLeafNode) StringIndented(indent string) string {
-	return fmt.Sprintf(`proofLeafNode{
+func (pln ProofLeafNode) StringIndented(indent string) string {
+	return fmt.Sprintf(`ProofLeafNode{
 %s  Key:       %v
 %s  ValueHash: %X
 %s  Version:   %v
@@ -112,7 +112,7 @@ func (pln proofLeafNode) StringIndented(indent string) string {
 		indent)
 }
 
-func (pln proofLeafNode) Hash() []byte {
+func (pln ProofLeafNode) Hash() []byte {
 	hasher := sha256truncated.New()
 	buf := new(bytes.Buffer)
 
@@ -130,7 +130,7 @@ func (pln proofLeafNode) Hash() []byte {
 		err = amino.EncodeByteSlice(buf, pln.ValueHash)
 	}
 	if err != nil {
-		panic(fmt.Sprintf("Failed to hash proofLeafNode: %v", err))
+		panic(fmt.Sprintf("Failed to hash ProofLeafNode: %v", err))
 	}
 	hasher.Write(buf.Bytes())
 
@@ -161,7 +161,7 @@ func (node *Node) _pathToLeaf(t *Tree, key []byte, path *PathToLeaf) (*Node, err
 
 	if bytes.Compare(key, node.key) < 0 {
 		// left side
-		pin := proofInnerNode{
+		pin := ProofInnerNode{
 			Height:  node.height,
 			Size:    node.size,
 			Version: node.version,
@@ -173,7 +173,7 @@ func (node *Node) _pathToLeaf(t *Tree, key []byte, path *PathToLeaf) (*Node, err
 		return n, err
 	} else {
 		// right side
-		pin := proofInnerNode{
+		pin := ProofInnerNode{
 			Height:  node.height,
 			Size:    node.size,
 			Version: node.version,

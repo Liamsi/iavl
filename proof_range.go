@@ -15,7 +15,7 @@ type RangeProof struct {
 	RootHash   cmn.HexBytes    `json:"root_hash"`
 	LeftPath   PathToLeaf      `json:"left_path"`
 	InnerNodes []PathToLeaf    `json:"inner_nodes"`
-	Leaves     []proofLeafNode `json:"leaves"`
+	Leaves     []ProofLeafNode `json:"leaves"`
 	// temporary
 	treeEnd int // 0 if not set, 1 if true, -1 if false.
 }
@@ -198,7 +198,7 @@ func (proof *RangeProof) _verify(root []byte) (treeEnd bool, err error) {
 				continue
 			}
 
-			// Pop next inners, a PathToLeaf (e.g. []proofInnerNode).
+			// Pop next inners, a PathToLeaf (e.g. []ProofInnerNode).
 			inners, rinnersq := innersq[0], innersq[1:]
 			innersq = rinnersq
 
@@ -254,7 +254,7 @@ func (t *Tree) getRangeProof(keyStart, keyEnd []byte, limit int) (proof *RangePr
 		err = nil
 	}
 	values = append(values, left.value)
-	var leaves = []proofLeafNode{{
+	var leaves = []ProofLeafNode{{
 		Key:       left.key,
 		ValueHash: sha256truncated.Hash(left.value),
 		Version:   left.version,
@@ -326,7 +326,7 @@ func (t *Tree) getRangeProof(keyStart, keyEnd []byte, limit int) (proof *RangePr
 				innersq = append(innersq, inners)
 				inners = PathToLeaf(nil)
 				// Append leaf to leaves.
-				leaves = append(leaves, proofLeafNode{
+				leaves = append(leaves, ProofLeafNode{
 					Key:       node.key,
 					ValueHash: sha256truncated.Hash(node.value),
 					Version:   node.version,
@@ -347,7 +347,7 @@ func (t *Tree) getRangeProof(keyStart, keyEnd []byte, limit int) (proof *RangePr
 				if pathCount >= 0 {
 					// Skip redundant path items.
 				} else {
-					inners = append(inners, proofInnerNode{
+					inners = append(inners, ProofInnerNode{
 						Height:  node.height,
 						Size:    node.size,
 						Version: node.version,

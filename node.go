@@ -253,7 +253,7 @@ func (node *Node) writeHashBytes(w io.Writer) cmn.Error {
 			return cmn.ErrorWrap(err, "writing key")
 		}
 		// Indirection needed to provide proofs without values.
-		// (e.g. proofLeafNode.ValueHash)
+		// (e.g. ProofLeafNode.ValueHash)
 		valueHash := sha256truncated.Hash(node.value)
 		err = amino.EncodeByteSlice(w, valueHash)
 		if err != nil {
